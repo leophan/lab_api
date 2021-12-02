@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "f17962d5-c328-4b45-9eab-564b133e9735",
+		"name": "NoCeling",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UPLOAD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Zimportant/src/lab_api/data/sample.json",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Zimportant/src/lab_api/data/sample.csv",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": [],
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Zimportant/src/lab_api/data/20211202_sample.json",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/D:/Zimportant/src/lab_api/data/20190207_transactions.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:5000/v1/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"v1",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PROCESS",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/v1/transactions?file=20190207_transactions.json",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"v1",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": "sample.json",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"value": "20211202_sample.json",
+							"disabled": true
+						},
+						{
+							"key": "file",
+							"value": "20190207_transactions.json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_DATA",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "api_key",
+						"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:5000/v1/products?id=4",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
