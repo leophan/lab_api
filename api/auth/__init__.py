@@ -22,7 +22,7 @@ def verify_api_key(key: str):
 
 def auth_required(f):
     @wraps(f)
-    def decorator(*args, **kwargs):
+    def decorated(*args, **kwargs):
 
         api_key = None
 
@@ -39,4 +39,4 @@ def auth_required(f):
         except Exception as ex:
             return make_response(jsonify({'message': 'could not verify api_key'}), 500)
         return f(*args, **kwargs)
-    return decorator
+    return decorated

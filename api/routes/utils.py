@@ -1,6 +1,5 @@
 import json
 
-
 ALLOWED_EXTENSIONS = {'json'}
 
 def allowed_file(filename):

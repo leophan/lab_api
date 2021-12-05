@@ -1,6 +1,10 @@
+# project
 .pytest_cache/
 __pycache__/
 venv/
 setup.py
 lab_sqlite.db
 README_.rst
+
+# ide
+.vscode

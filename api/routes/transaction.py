@@ -1,12 +1,12 @@
 import os
+
+from api.auth import auth_required
+from api.models.io import IO
+from api.routes.health import SUCCESS_MSG
+from api.routes.utils import allowed_file, read_file
 from flask import request
 from flask.blueprints import Blueprint
 from werkzeug.utils import secure_filename
-from api.auth import auth_required
-from api.models.io import IO
-
-from api.routes.health import SUCCESS_MSG
-from api.routes.utils import allowed_file, read_file
 
 transaction_api = Blueprint("transaction", __name__)
 

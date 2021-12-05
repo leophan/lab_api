@@ -1,9 +1,8 @@
-from flask.blueprints import Blueprint
-
-from flask import request
 from api.auth import auth_required
 from api.models.io import IO
 from api.routes.health import SUCCESS_MSG
+from flask import request
+from flask.blueprints import Blueprint
 
 product_api = Blueprint("product", __name__)
 
