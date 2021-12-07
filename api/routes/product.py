@@ -1,5 +1,5 @@
 from api.auth import auth_required
-from api.models.io import IO
+from api.models.transform import io
 from api.routes.health import SUCCESS_MSG
 from flask import request
 from flask.blueprints import Blueprint
@@ -11,12 +11,11 @@ product_api = Blueprint("product", __name__)
 @product_api.route("/v1/products", methods=["GET"])
 @auth_required
 def product():
-    product_id = request.args.get('id')
-    io = IO()
-    query = """SELECT product_id, sum(count) AS total
-            FROM agg
-            WHERE product_id = '{product_cond}'
-            GROUP BY product_id;""".format(product_cond = product_id)
-    from app import engine
-    result = io.get_json(engine, query)
+    result = []
+    id = request.args.get('id')
+    if id is None:
+        result = io.get_products()
+        return {'status': SUCCESS_MSG, 'data': result}
+
+    result = io.get_product(id)
     return {'status': SUCCESS_MSG, 'data': result}
