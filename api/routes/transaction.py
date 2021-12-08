@@ -1,12 +1,14 @@
 import os
+
+from api.auth import auth_required
+from api.models.sqla.product import Product
+from api.models.transform import io
+from api.models.sqla import db
+from api.routes.health import SUCCESS_MSG
+from api.routes.utils import allowed_file, read_file
 from flask import request
 from flask.blueprints import Blueprint
 from werkzeug.utils import secure_filename
-from api.auth import auth_required
-from api.models.io import IO
-
-from api.routes.health import SUCCESS_MSG
-from api.routes.utils import allowed_file, read_file
 
 transaction_api = Blueprint("transaction", __name__)
 
@@ -39,15 +41,13 @@ def upload():
     return {'status': FAILURE_MSG}, FAILURE_STATUS_CODE
 
 
-# TODO: refactor to validate `file` parameter
+#TODO: refactor to validate `file` parameter
 @transaction_api.route("/v1/transactions", methods=["GET"])
 @auth_required
 def process():
-    io = IO()
     filename = request.args.get('file')
     DATA_PATH = UPLOAD_PATH + '/' + filename
     date = filename.split('_')[0]
     lines = read_file(DATA_PATH)
-    from app import engine
-    io.handle(engine, date, lines)
+    io.handle(db, date, lines)
     return {'status': SUCCESS_MSG}, SUCCESS_STATUS_CODE

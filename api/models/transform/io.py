@@ -2,6 +2,8 @@ import json
 import numpy as np
 import pandas as pd
 
+from api.models.sqla.product import Product
+
 
 class IO:
     def __init__(self):
@@ -30,6 +32,7 @@ class IO:
 
 
     def convert_arr_to_df(self, arr):
+        "Groupby data by product_id"
         np_arr = np.array(arr)
         df = pd.DataFrame(data=np_arr, columns=['customer_id', 'product_id'])
         groupby_df = df.groupby('product_id')['customer_id'].count().reset_index(name="count")
@@ -41,33 +44,59 @@ class IO:
         return df
 
 
-    def save_json(self, engine, df):
-        df.to_sql('agg', con=engine, if_exists='append')
+    def save_object(self, db, objects):
+        db.session.add_all(objects)
+        db.session.flush()
+        db.session.commit()
         return True
 
 
     def convert_legacy_to_json(self, raws):
         products = []
+        product = {}
+        product['product_id'] = raws.product_id
+        product['units_sold'] = raws.units_sold
+        products.append(product)
+
+        return products
+
+
+    def convert_legacy_to_jsons(self, raws):
+        products = []
         for item in raws:
             product = {}
-            product['product_id'] = item[0]
-            product['total'] = item[1]
+            product['product_id'] = item.product_id
+            product['units_sold'] = item.units_sold
             products.append(product)
 
         return products
 
 
-    def get_json(self, engine, query):
-        try:
-            result = engine.execute(query).fetchall()
-            products = self.convert_legacy_to_json(result)
-            return products
-        except:
-            return []
+    def get_product(self, id):
+        result = Product.query.filter_by(product_id=id).first()
+        products = self.convert_legacy_to_json(result)
+        return products
 
+
+    def get_products(self):
+        result = Product.query.all()
+        products = self.convert_legacy_to_jsons(result)
+        return products
+
+
+    def convert_df_to_object(self, df):
+        products_raw = df.values.tolist()
+        products_object = [] 
+        for item in products_raw:
+            object = Product(date = item[2],
+                             product_id = item[0],
+                             units_sold = item[1])
+            products_object.append(object)
+
+        return products_object
 
     # TODO: should be to store raw data and agg data 
-    def handle(self, engine, date, lines):
+    def handle(self, db, date, lines):
         """Convert the jsonline to store database.
             _step 1: convert to dataframe(include agg before store db)
             _step 2: add date to campare each files
@@ -76,5 +105,6 @@ class IO:
         arr = self.parse_jsonlines(lines)
         groupby_df = self.convert_arr_to_df(arr)
         date_df = self.add_date(date, groupby_df)
-        self.save_json(engine, date_df)
+        products = self.convert_df_to_object(date_df)
+        self.save_object(db, products)
         return True

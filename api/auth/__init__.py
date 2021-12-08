@@ -22,12 +22,11 @@ def verify_api_key(key: str):
 
 def auth_required(f):
     @wraps(f)
-    def decorator(*args, **kwargs):
-
+    def decorated(*args, **kwargs):
         api_key = None
-
-        if 'api_key' in request.headers:
-            api_key = request.headers['api_key']
+        AUTH_API_KEY = 'api_key'
+        if AUTH_API_KEY in request.headers:
+            api_key = request.headers[AUTH_API_KEY]
 
         if not api_key:
             return make_response(jsonify({'message': 'a valid api_key is missing'}), 401)
@@ -39,4 +38,4 @@ def auth_required(f):
         except Exception as ex:
             return make_response(jsonify({'message': 'could not verify api_key'}), 500)
         return f(*args, **kwargs)
-    return decorator
+    return decorated
