@@ -19,7 +19,8 @@ SUCCESS_STATUS_CODE = 200
 FAILURE_STATUS_CODE = 400
 # TODO: refactor to build code list
 SUCCESS_MSG = 'OK'
-FAILURE_MSG = 'json file is invalid.'
+FAILURE_MSG = 'NOT_OK.'
+FAILURE_MSG2 = 'json file is invalid.'
 
 UPLOAD_PATH = 'data/raws'
 
@@ -42,7 +43,7 @@ def upload():
         io.handle(db, date, raws_data)
         return {'message': SUCCESS_MSG}, SUCCESS_STATUS_CODE
 
-    return {'message': FAILURE_MSG}, FAILURE_STATUS_CODE
+    return {'message': FAILURE_MSG2}, FAILURE_STATUS_CODE
 
 
 #TODO: refactor to validate `file` parameter

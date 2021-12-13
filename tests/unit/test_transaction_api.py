@@ -5,7 +5,7 @@ import pytest
 from api.auth import API_KEY
 
 from io import BytesIO
-from api.routes.transaction import FAILURE_STATUS_CODE, SUCCESS_STATUS_CODE, \
+from api.routes.transaction import FAILURE_MSG2, FAILURE_STATUS_CODE, SUCCESS_STATUS_CODE, \
     FAILURE_MSG, SUCCESS_MSG
 
 JSON_FILE = (BytesIO(b'{"id": 1, "products": [1, 2, 3]}'), 'sample.json')
@@ -34,7 +34,7 @@ class TestTransactionAPI(unittest.TestCase):
                               headers={'api_key': API_KEY})
             msg = json.loads(res.get_data())
             self.assertEqual(res._status_code, FAILURE_STATUS_CODE)
-            self.assertEqual(msg['message'], FAILURE_MSG)
+            self.assertEqual(msg['message'], FAILURE_MSG2)
 
     def test_transaction_upload_empty(self):
         from app import app
