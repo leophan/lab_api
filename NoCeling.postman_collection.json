@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f17962d5-c328-4b45-9eab-564b133e9735",
+		"_postman_id": "6b320fcb-8677-4820-9d28-ae81922b2576",
 		"name": "NoCeling",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,14 +8,23 @@
 		{
 			"name": "UPLOAD",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "api_key",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "api_key",
-						"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -59,47 +68,6 @@
 					"path": [
 						"v1",
 						"transactions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PROCESS",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "api_key",
-						"value": "4babf13c-4146-4701-bfe1-ee5c745df7cd",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:5000/v1/transactions?file=20190207_transactions.json",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"v1",
-						"transactions"
-					],
-					"query": [
-						{
-							"key": "file",
-							"value": "sample.json",
-							"disabled": true
-						},
-						{
-							"key": "file",
-							"value": "20211202_sample.json",
-							"disabled": true
-						},
-						{
-							"key": "file",
-							"value": "20190207_transactions.json"
-						}
 					]
 				}
 			},

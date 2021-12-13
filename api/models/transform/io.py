@@ -1,8 +1,10 @@
 import json
+
 import numpy as np
 import pandas as pd
-
 from api.models.sqla.product import Product
+from sqlalchemy.sql import func
+from sqlalchemy import desc, asc
 
 
 class IO:
@@ -25,7 +27,7 @@ class IO:
     def parse_jsonlines(self, lines):
         convert_arr = []
         for line in lines:
-            trans = self.parse_jsonline(line)
+            trans = self.parse_jsonline(json.loads(line))
             convert_arr = convert_arr + trans
         
         return convert_arr
@@ -72,14 +74,23 @@ class IO:
         return products
 
 
-    def get_product(self, id):
-        result = Product.query.filter_by(product_id=id).first()
+    def get_product(self, db, id):
+        result = db.session.query(Product.product_id, \
+                                  func.sum(Product.units_sold).label('units_sold')) \
+                                .group_by(Product.product_id) \
+                                .filter_by(product_id=id).first()
+
         products = self.convert_legacy_to_json(result)
         return products
 
 
-    def get_products(self):
-        result = Product.query.all()
+    def get_products(self, db, next_page=0, limit=10):
+        result = db.session.query(Product.product_id, \
+                                  func.sum(Product.units_sold).label('units_sold')) \
+                                .group_by(Product.product_id) \
+                                .order_by(asc(Product.product_id)) \
+                                .offset(next_page*limit) \
+                                .limit(limit)
         products = self.convert_legacy_to_jsons(result)
         return products
 
