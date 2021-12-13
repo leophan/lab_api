@@ -16,8 +16,6 @@
 
    UPLOAD: To upload file to system and store.
 
-   PROCESS: To trigger a job to transform data.
-
    GET_DATA: To response data by using product_id
 
 4. Test:
