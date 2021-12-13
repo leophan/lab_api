@@ -1,3 +1,11 @@
+class TestConfig(object):
+    debug = True
+    SQLALCHEMY_DATABASE_URI =  "sqlite:///:memory:"
+    # MAX_CONTENT_LENGTH = 2 * 1024
+    MAX_CONTENT_LENGTH = 2 * 1024 * 1024
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHMEY_ECHO = True
+
 class LocalConfig(object):
     debug = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///local_sqlite.db"
@@ -22,4 +30,5 @@ config = {
     'dev': DevConfig,
     'prod': ProdConfig,
     'local': LocalConfig,
+    'test': TestConfig,
 }

@@ -3,8 +3,9 @@
 __pycache__/
 venv/
 setup.py
-lab_sqlite.db
 README_.rst
+data/raws/*
+local_sqlite.db
 
 # ide
 .vscode
